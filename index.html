@@ -1,1 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#002868">
+<meta name="description" content="Bait Bros — Handmade soft plastic baits. Custom crawdad-style baits, bold colors, small-batch pours. Coming soon.">
+<title>Bait Bros — Handmade Soft Plastic Baits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ===== RESET & BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red:      #C8102E;
+    --red-dark: #9B0020;
+    --blue:     #002868;
+    --blue-mid: #003F9A;
+    --gold:     #D4A017;
+    --white:    #FFFFFF;
+    /* safe area insets for notched phones */
+    --sat: env(safe-area-inset-top, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+    --sal: env(safe-area-inset-left, 0px);
+    --sar: env(safe-area-inset-right, 0px);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--blue);
+    color: var(--white);
+    min-height: 100vh;
+    min-height: 100dvh; /* dynamic viewport for mobile browsers */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    /* padding accounts for fixed stripes + notch */
+    padding-top:    calc(12px + var(--sat));
+    padding-bottom: calc(12px + var(--sab));
+    padding-left:   calc(1.25rem + var(--sal));
+    padding-right:  calc(1.25rem + var(--sar));
+  }
+
+  /* ===== BACKGROUND ===== */
+  .bg {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(165deg, #001845 0%, #002868 50%, #001030 100%);
+    z-index: 0;
+  }
+
+  /* animated water glow at bottom */
+  .bg::before {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    left: -20%;
+    width: 140%;
+    height: 280px;
+    background: radial-gradient(ellipse at center, rgba(0,63,154,0.35) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: waterGlow 10s ease-in-out infinite;
+  }
+
+  /* red shimmer layer */
+  .bg::after {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    left: -10%;
+    width: 120%;
+    height: 200px;
+    background: radial-gradient(ellipse at center, rgba(200,16,46,0.07) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: waterGlow 14s ease-in-out infinite reverse;
+  }
+
+  @keyframes waterGlow {
+    0%, 100% { transform: translateY(0)   scaleX(1); }
+    50%       { transform: translateY(-18px) scaleX(1.04); }
+  }
+
+  /* twinkling stars layer */
+  .stars {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: twinkle var(--d) ease-in-out infinite var(--delay);
+    opacity: 0;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0; }
+    50%       { opacity: var(--o); }
+  }
+
+  /* ===== FIXED STRIPES ===== */
+  .stripe-top,
+  .stripe-bottom {
+    position: fixed;
+    left: 0; right: 0;
+    height: 5px;
+    z-index: 100;
+    background: linear-gradient(90deg,
+      var(--red)      0%,      var(--red)      33.33%,
+      var(--white)    33.33%,  var(--white)    66.66%,
+      var(--blue-mid) 66.66%,  var(--blue-mid) 100%
+    );
+  }
+
+  .stripe-top    { top: 0; top: var(--sat, 0); }
+  .stripe-bottom { bottom: 0; bottom: var(--sab, 0); }
+
+  /* ===== MAIN CONTENT ===== */
+  .content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0; /* controlled per-element with margin */
+  }
+
+  /* ===== BADGE ===== */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--red);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 3px;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.5s 0.05s ease both;
+  }
+
+  /* ===== LOGO ===== */
+  .logo-wrap {
+    width: min(75vw, 280px);
+    margin: 0 auto 0.75rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .logo-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 8px 32px rgba(0,0,0,0.55))
+            drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+  }
+
+  /* ===== DIVIDER ===== */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 300px;
+    margin: 0.25rem auto 1.25rem;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.18);
+  }
+
+  .divider-anchor {
+    color: var(--gold);
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  /* ===== TAGLINE ===== */
+  .tagline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: clamp(0.95rem, 4vw, 1.2rem);
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.85rem;
+    animation: fadeUp 0.6s 0.25s ease both;
+    line-height: 1.3;
+    padding: 0 0.5rem;
+  }
+
+  /* ===== BODY COPY ===== */
+  .sub {
+    font-size: clamp(0.88rem, 3.5vw, 0.98rem);
+    color: rgba(255,255,255,0.58);
+    line-height: 1.7;
+    max-width: 400px;
+    margin: 0 auto 1.75rem;
+    animation: fadeUp 0.6s 0.3s ease both;
+    padding: 0 0.25rem;
+  }
+
+  /* ===== PILL TAGS ===== */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 1.75rem;
+    animation: fadeUp 0.6s 0.35s ease both;
+    padding: 0 0.25rem;
+  }
+
+  .tag {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 50px;
+    padding: 7px 15px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: clamp(0.72rem, 3vw, 0.8rem);
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.72);
+    white-space: nowrap;
+  }
+
+  /* ===== COMING SOON CARD ===== */
+  .card {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+
+  .card-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+  }
+
+  .card-text {
+    font-size: clamp(0.85rem, 3.5vw, 0.92rem);
+    color: rgba(255,255,255,0.52);
+    line-height: 1.65;
+  }
+
+  /* ===== CONTACT LINE ===== */
+  .contact-line {
+    animation: fadeUp 0.6s 0.45s ease both;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(0.75rem, 3vw, 0.82rem);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.28);
+    padding-bottom: 0.5rem;
+  }
+
+  .contact-line a {
+    color: var(--gold);
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .contact-line a:hover,
+  .contact-line a:focus { text-decoration: underline; }
+
+  /* ===== ANIMATION ===== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0);    }
+  }
+
+  /* ===== MOBILE FINE-TUNING ===== */
+
+  /* Small phones (≤ 375px) */
+  @media (max-width: 375px) {
+    .logo-wrap   { width: 68vw; }
+    .card        { padding: 1.25rem; }
+    .tagline     { font-size: 0.9rem; }
+  }
+
+  /* Landscape on phones */
+  @media (max-height: 500px) and (orientation: landscape) {
+    body         { justify-content: flex-start; padding-top: calc(16px + var(--sat)); }
+    .logo-wrap   { width: min(38vw, 160px); margin-bottom: 0.5rem; }
+    .badge       { margin-bottom: 0.75rem; }
+    .sub         { margin-bottom: 1rem; }
+    .tags        { margin-bottom: 1rem; }
+    .card        { padding: 1rem 1.25rem; margin-bottom: 1rem; }
+  }
+
+  /* Tall phones — add a little extra breathing room */
+  @media (min-height: 750px) {
+    .content { gap: 0; }
+    .logo-wrap { width: min(78vw, 300px); }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="stars" aria-hidden="true" id="stars"></div>
+<div class="stripe-top"></div>
+<div class="stripe-bottom"></div>
+
+<main class="content" role="main">
+
+  <div class="badge">🎣 Coming Soon</div>
+
+  <div class="logo-wrap">
+    <img
+      src="https://raw.githubusercontent.com/4HFund/BaitBros/main/assets/C0C2D8B5-C8E5-4006-B4EB-B4C307A5B426.png"
+      alt="Bait Bros — Handmade Soft Plastic Baits logo"
+      width="300"
+      height="300"
+      loading="eager"
+      decoding="async"
+    >
+  </div>
+
+  <div class="divider" aria-hidden="true">
+    <span class="divider-line"></span>
+    <span class="divider-anchor">⚓</span>
+    <span class="divider-line"></span>
+  </div>
+
+  <p class="tagline">Handmade Soft Plastic Baits&nbsp;— Built to Get Bit</p>
+
+  <p class="sub">Custom crawdad-style baits, bold colors, and small-batch pours made for creek, pond, and weekend anglers. Something different is on the way.</p>
+
+  <div class="tags" role="list">
+    <span class="tag" role="listitem">🦞 Crawdad Baits</span>
+    <span class="tag" role="listitem">🎨 Custom Colors</span>
+    <span class="tag" role="listitem">🤲 Handmade</span>
+    <span class="tag" role="listitem">🇺🇸 Small Batch</span>
+  </div>
+
+  <div class="card">
+    <p class="card-label">Full Site Coming Soon</p>
+    <p class="card-text">We're just getting started. Shop, custom orders, and the full bait lineup are on the way. Check back soon — or reach out now if you're already interested.</p>
+  </div>
+
+  <p class="contact-line">
+    Questions?&nbsp;<a href="#">Add your contact info here</a>
+  </p>
+
+</main>
+
+<script>
+  // Twinkling star dots — pure JS/CSS, zero images
+  (function () {
+    var container = document.getElementById('stars');
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < 55; i++) {
+      var s = document.createElement('div');
+      s.className = 'star';
+      var size = (Math.random() * 1.8 + 0.8).toFixed(1);
+      s.style.cssText =
+        'width:'  + size + 'px;' +
+        'height:' + size + 'px;' +
+        'top:'    + (Math.random() * 100).toFixed(1) + '%;' +
+        'left:'   + (Math.random() * 100).toFixed(1) + '%;' +
+        '--d:'    + (3 + Math.random() * 7).toFixed(1) + 's;' +
+        '--delay:-' + (Math.random() * 7).toFixed(1) + 's;' +
+        '--o:'    + (0.15 + Math.random() * 0.45).toFixed(2) + ';';
+      frag.appendChild(s);
+    }
+    container.appendChild(frag);
+  })();
+</script>
+
+</body>
+</html>
 
